@@ -1,0 +1,29 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+<br>
+    <br>
+    <br>
+    <section id="message" class="error-message">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <p>Error {{ top }}</p>
+
+            <img src={{ "/static/img/error-%s.png"|format (top)}} class="img-fluid" alt="" style="max-width:50%; margin-left:6rem">
+
+            <p>{{ bottom }}</p>
+
+        </div>
+
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+
+{% endblock %}

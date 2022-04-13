@@ -1,0 +1,81 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Coin Info
+{% endblock %}
+
+{% block main %}
+<br>
+<br>
+<br>
+<section id="info" class="info">
+
+  <img src="{{info.logo}}" alt="{{info.name}} logo" class="center" width="80" >
+   <div class"center-text">
+     <h1 class="text-center big-font">{{info.name}}({{info.symbol}})</h1>
+   </div>
+
+<div class="border-container">
+
+    <div class="order-form">
+
+    </div>
+
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div id="tradingview_54ae8"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSDT/?exchange=BINANCE" rel="noopener" target="_blank"><span class="blue-text">BTCUSDT Chart</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+  new TradingView.widget(
+  {
+  "width": 627,
+  "height": 390,
+  "symbol": "BINANCE:{{info.symbol}}USDT",
+  "interval": "D",
+  "timezone": "Etc/UTC",
+  "theme": "dark",
+  "style": "1",
+  "locale": "en",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "allow_symbol_change": true,
+  "container_id": "tradingview_54ae8"
+}
+  );
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+
+   <h3>Description:</h3>
+   <p class="description">{{info.description}}</p>
+</div>
+
+   <br>
+
+   <div class="links-container">
+   <h3>External Links:</h3>
+   <br>
+
+   <div class="links columns">
+       {% for key, values in info.urls.items() %}
+       <dl>
+           <dt><h5>{{key}}:</h5></dt>
+           {% for value in values %}
+               <dd><a href="{{value}}">{{value}}</a></dd>
+           {% endfor %} <br>
+      {% endfor %}
+
+      </dl>
+    </div>
+
+    </div>
+   </div>
+</section><!-- End info Section -->
+
+
+
+
+{% endblock %}

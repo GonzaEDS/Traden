@@ -1,0 +1,65 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+  My Account
+{% endblock %}
+
+{% block main %}
+<br><br><br>
+    <section id="coin" class="coin-table"  data-aos="fade-up" style="padding:2.5rem; text-align:center; padding: 2.5rem;
+    max-width: 47vw;
+    text-align: center;
+    margin: auto;
+    border-collapse: separate !important;">
+
+        <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th class="">Username</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class=""> {{users.username}} </td>
+
+                </tr>
+
+        </tbody>
+    </table>
+    <div>
+       <a href="/username"><button class="btn get-started-btn2 btn-sm" type="button">Change username</button></a>
+    </div>
+    <br>
+        <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th class="">Cash</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="" style="font-family: monospace"> ${{ users.cash }} </td>
+                </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="/cash"><button class="btn get-started-btn2 btn-sm" type="button">Add Cash</button></a>
+    </div>
+    <br>
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th class="">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class=""> ******* </td>
+                </tr>
+        </tbody>
+    </table>
+        <div>
+            <a href="/password"><button class="btn get-started-btn2 btn-sm" type="button" href="/cash">Change password</button></a>
+        </div>
+    </section>
+{% endblock %}

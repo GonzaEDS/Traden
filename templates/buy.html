@@ -1,0 +1,231 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Buy | Sell
+{% endblock %}
+
+{% block main %}
+
+  <main id="main"  data-aos="fade-up">
+
+    <br>
+    <br>
+    <br>
+
+    <!-- ======= buy section ======= -->
+    <section id="form" class="form">
+
+
+      <form action="/buy" method="post">
+
+
+  <!-- radio buttons buy/sell -->
+        <div class="check-container">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check trade-checks" name="btnradio" id="btnradio1" autocomplete="off" checked value="buy">
+
+          <label class="btn btn-outline-primary" for="btnradio1">Buy</label>
+
+          <input type="radio" class="btn-check trade-checks" name="btnradio" id="btnradio2" autocomplete="off" value ="sell">
+          <label class="btn btn-outline-danger" for="btnradio2">Sell</label>
+        </div>
+  <!--></!-->
+
+        </div>
+
+        <div class="buy-boxes-container">
+
+          <div class="buy-boxes" style="margin-right: 0.5vw">
+            <p id="display-BuySell">Buy</p>
+
+
+              <div>
+                  <input autocomplete="off" id="quantityInput" class="form-control numbers mx-auto w-auto" min="0.0001" step="0.0001" name="cryptos" placeholder="quantity" type="number" >
+              </div>
+              <div style="display:none">
+                  <input autocomplete="off" id="quantityOutputForm" class="form-control mx-auto w-auto" name="quantityOutput" placeholder="quantityOutput" type="text" >
+              </div>
+              <div style="display:none">
+                  <input autocomplete="off" id="returnUsdEquivalent" class="form-control mx-auto w-auto" name="usdEquivalent" placeholder="usdEquivalent" type="text" >
+              </div>
+              <br>
+              <div>
+                  <div id="buySymbol"><input id="symbolInput" autocomplete="off" autofocus class="form-control mx-auto w-auto" style="width: 6rem!important" name="symbol" placeholder="Symbol" type="text"></div>
+                  <div id="coinToSell"></div>
+              </div>
+          </div>
+          <div class="buy-boxes" style="margin-left: 0.5vw">
+            <p id="display-WithFor">With</p>
+
+              <div>
+
+                <p id="coinsquantity" class="numbers">0</p>
+                <div id="coinWith">
+              <select id="user_crypto" class="form-select mx-auto w-auto" name="userCoin">
+                <option value = "USD" selected>USD</option>
+
+                {% for user_crypto in user_cryptos %}
+                    <option value="{{user_crypto}}">{{user_crypto}}</option>
+
+                {% endfor %}
+
+                </select>
+                </div>
+              </div>
+              <br>
+              <div>
+                  <p id="usd_equivalent" class="numbers"></p>
+              </div>
+          </div>
+
+        </div>
+        <div class="check-container">
+          <button class="btn btn-primary" type="submit">Submit Order</button>
+        </div>
+
+    </form>
+
+    </section><!-- End buy Section -->
+
+
+    <script>
+    const coins = {{coins|tojson|safe}};
+    const quantity = document.getElementById("quantityInput").value;
+    document.getElementById("quantityInput").addEventListener("click", myFunction);
+    document.getElementById("user_crypto").addEventListener("click", myFunction);
+    document.getElementById("quantityInput").addEventListener("keyup", myFunction);
+    document.getElementById("symbolInput").addEventListener("keyup", myFunction);
+
+
+    document.getElementById("btnradio1").addEventListener("click", buy);
+    document.getElementById("btnradio2").addEventListener("click", sell);
+
+    function buy(){
+
+      document.getElementById("display-BuySell").innerHTML = "Buy";
+      document.getElementById("display-WithFor").innerHTML =  "With";
+      document.getElementById("coinToSell").innerHTML =  '';
+      document.getElementById("coinWith").innerHTML =  '<select id="user_crypto" class="form-select mx-auto w-auto" name="userCoin"> <option value="USD" selected>USD</option>{% for user_crypto in user_cryptos %}<option value="{{user_crypto}}">{{user_crypto}}</option>{% endfor %}</select>';
+      document.getElementById("buySymbol").innerHTML =  '<input id="symbolInput" autocomplete="off" autofocus class="form-control mx-auto w-auto" style="width: 6rem!important" name="symbol" placeholder="Symbol" type="text">';
+      document.getElementById("quantityInput").value = '';
+      document.getElementById("coinsquantity").innerHTML = 0;
+
+    }
+
+    function sell(){
+
+
+
+      document.getElementById("display-BuySell").innerHTML = "Sell";
+      document.getElementById("display-WithFor").innerHTML =  "For";
+      document.getElementById("coinsquantity").innerHTML = 0;
+      document.getElementById("coinToSell").innerHTML =  '<select id="user_crypto" class="form-select mx-auto w-auto" name="userCoin"> <option value="USD" disabled selected>Coin</option>{% for user_crypto in user_cryptos %}<option value="{{user_crypto}}">{{user_crypto}}</option>{% endfor %}</select>';
+      document.getElementById("buySymbol").innerHTML =  '';
+      document.getElementById("coinWith").innerHTML = '<input id="symbolInput" autocomplete="off" autofocus class="form-control mx-auto w-auto" style="width: 6rem!important" name="symbol" placeholder="Symbol" type="text" value ="USD">';
+      document.getElementById("usd_equivalent").innerHTML = '' ;
+      document.getElementById("quantityInput").value = '';
+
+    }
+
+    function myFunction() {
+
+      document.getElementById("quantityInput").addEventListener("click", myFunction);
+      document.getElementById("user_crypto").addEventListener("click", myFunction);
+      document.getElementById("quantityInput").addEventListener("keyup", myFunction);
+      document.getElementById("symbolInput").addEventListener("keyup", myFunction);
+
+    // buy
+
+      if (document.getElementById("display-BuySell").innerHTML == "Buy") {
+
+        document.getElementById("quantityInput").addEventListener("click", myFunction);
+        document.getElementById("user_crypto").addEventListener("click", myFunction);
+        document.getElementById("quantityInput").addEventListener("keyup", myFunction);
+        document.getElementById("symbolInput").addEventListener("keyup", myFunction);
+
+        var quantity = document.getElementById("quantityInput").value;
+
+        var coinSymbol = document.getElementById("symbolInput").value;
+        var userCrypto = document.getElementById("user_crypto").value;
+        var reference = 1;
+        if (userCrypto != 'USD') {
+          reference = coins[userCrypto];
+        }
+        var coinPrice = coins[coinSymbol] / reference;
+        var result = coinPrice * quantity;
+        if (Number.isNaN(result)) {
+          result = 0
+        }
+        document.getElementById("coinsquantity").innerHTML = result;
+        document.getElementById("quantityOutputForm").value = result;
+
+        if ( userCrypto != 'USD') {
+
+          document.getElementById("usd_equivalent").innerHTML = '($'+ (Math.round((coins[userCrypto] * result) * 100) / 100).toFixed(2) +') USD' ;
+          document.getElementById("returnUsdEquivalent").value = (coins[userCrypto] * result);
+
+
+
+        } else {
+
+          document.getElementById("usd_equivalent").innerHTML = '' ;
+          document.getElementById("returnUsdEquivalent").value = 0;
+
+        }
+
+        // sell
+
+      } else {
+
+        document.getElementById("quantityInput").addEventListener("click", myFunction);
+        document.getElementById("user_crypto").addEventListener("click", myFunction);
+        document.getElementById("quantityInput").addEventListener("keyup", myFunction);
+        document.getElementById("symbolInput").addEventListener("keyup", myFunction);
+
+        var coinSymbol = document.getElementById("symbolInput").value;
+        var userCrypto = document.getElementById("user_crypto").value;
+        var quantity = document.getElementById("quantityInput").value;
+
+        if (coinSymbol == 'USD') {
+          var reference = 1;
+        }
+        else {
+
+          var reference = coins[coinSymbol];
+        }
+
+        var coinPrice = coins[userCrypto] / reference;
+        var result = coinPrice * quantity;
+
+        if (Number.isNaN(result)) {
+          result = 0
+        }
+
+        document.getElementById("coinsquantity").innerHTML = result;
+        document.getElementById("quantityOutputForm").value = result;
+
+        if (( coinSymbol != 'USD') && !(Number.isNaN((coins[coinSymbol] * result)))){
+
+          document.getElementById("usd_equivalent").innerHTML = '($'+ (Math.round((coins[coinSymbol] * result) * 100) / 100).toFixed(2) +') USD' ;
+          document.getElementById("returnUsdEquivalent").value = (coins[coinSymbol] * result);
+
+        } else {
+
+          document.getElementById("usd_equivalent").innerHTML = '' ;
+          document.getElementById("returnUsdEquivalent").value = 0;
+
+        }
+
+      }
+
+    }
+
+
+
+    </script>
+
+
+
+  </main><!-- End #main -->
+
+{% endblock %}

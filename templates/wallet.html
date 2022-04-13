@@ -1,0 +1,71 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Wallet
+{% endblock %}
+
+{% block main %}
+<br>
+    <br>
+    <br>
+    {% if get_flashed_messages() %}
+    <header>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>{{ get_flashed_messages() | join(" ") }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </header>
+    {% endif %}
+    <section id="coin" class="coin-table"  data-aos="fade-up" style="padding:2.5rem; text-align:center">
+
+
+
+
+        <table class="table table-striped table-bordered table-dark" id="table-wallet">
+
+          <thead>
+          <tr>
+              <th scope="col" style="text-align:center"  ><img src="/static/img/dollar.png" alt="dollar logo" class="img-fluid" width="35" height="35"></th>
+              <th scope="col" colspan="3" >USD</th>
+              <th scope="col"  style="font-family: monospace">${{'%0.2f'| format(cash)}}</th>
+          </tr>
+            <tr>
+              <th scope="col" colspan="5" style="border-left-width: 0;border-right-width: 0;background-color: #1f1f1f" ></th>
+            </tr>
+            <tr>
+              <th scope="col" colspan="5" >Cryptocurrencies</th>
+            </tr>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">symbol</th>
+              <th scope="col">name</th>
+              <th scope="col">coins</th>
+              <th scope="col">USD equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for coin in wallet %}
+            <tr>
+              <th scope="row" style="text-align: center"><img src= "{{coin.logo}}" alt="{{coin.name}} logo" class="img-fluid" width="35" height="35"></th>
+              <td>{{coin.symbol}}</td>
+              <td>{{coin.name}}</td>
+              <td style="font-family: monospace">{{coin.coins}}</td>
+              <td style="font-family: monospace">${{'%0.2f'| format(coin.usd_equiv)}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+            <tfoot>
+
+                <tr>
+                    <td class="" colspan="4">TOTAL USD EQUIVAENT</td>
+                    <td class="" style="font-family: monospace">${{'%0.2f'| format(total)}}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+
+    </section><!-- End About Section -->
+
+
+{% endblock %}

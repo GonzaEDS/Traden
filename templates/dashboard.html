@@ -1,0 +1,71 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+<br>
+    <br>
+    <br>
+    <br>
+    <div id="dashboard-header" class="pageheader" data-aos="fade-up">
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Welcome!</strong><br> {{ get_flashed_messages() | join(" ") }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </header>
+        {% endif %}
+        <h5 style="margin-left: 5rem">Click on the logos to see live charts and extra info.</h5>
+    </div>
+
+    <section id="dashboard" class="table" style="display: flex; padding: 2vw; flex-direction: row;
+    flex-wrap: wrap;">
+
+
+      <div class="container dashboard-containers" data-aos="fade-up">
+
+
+         <table class="table tablestriped dashboard-tables">
+
+        <tbody>
+        {% for coin in coins1 %}
+            <tr>
+                <td class="_"><a href="/coin/{{ coin.symbol  }}" style="cursor:pointer" class="logo me-auto me-lg-0" ><img src= "{{coin.logo}}" alt="{{coin.name}} logo" class="img-fluid" width="60" height="60" style="cursor:pointer"></a></td>
+                <td class="_">{{ coin.symbol }}</td>
+                <td class="_">{{ coin.name }}</td>
+                <td class="_ numbers">${{ coin.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+      </div>
+      <div class="container dashboard-containers" data-aos="fade-up">
+
+
+         <table class="table tablestriped dashboard-tables" >
+
+        <tbody>
+        {% for coin in coins2 %}
+            <tr>
+                <td class="_"><a href="/coin/{{ coin.symbol  }}" style="cursor:pointer" class="logo me-auto me-lg-0" ><img src= "{{coin.logo}}" alt="{{coin.name}} logo" class="img-fluid" width="60" height="60" style="cursor:pointer"></a></td>
+                <td class="_">{{ coin.symbol }}</td>
+                <td class="_">{{ coin.name }}</td>
+                <td class="_ numbers">${{ coin.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+      </div>
+
+
+    </section><!-- End About Section -->
+
+
+{% endblock %}

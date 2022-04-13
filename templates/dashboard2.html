@@ -1,0 +1,57 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Dasboard
+{% endblock %}
+
+{% block main %}
+<br>
+    <br>
+    <br>
+    <section id="dashboard" class="">
+      <div class="container" data-aos="fade-up" style="border-bottom-width:3px">
+
+
+
+                 <!-- TradingView Widget BEGIN
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/indices/" rel="noopener" target="_blank"><span class="blue-text">Indices</span></a> by TradingView</div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+          var coins = {{coins|tojson|safe}}
+          alert(coins);
+          var json = JSON.parse(coins);
+
+	      alert(json["name"]); //mkyong
+	      var name2 = (json.name); //mkyong
+	      var name = (coins["name"]); //mkyong
+	      var name2 = (coins.name); //mkyong-->
+
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/indices/" rel="noopener" target="_blank"><span class="blue-text">Indices</span></a> by TradingView</div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+          {
+          "width": 770,
+          "height": 450,
+          "symbolsGroups": [
+            {
+              "name": "Indices",
+              "originalName": "Indices",
+              "symbols": [
+                {{coins|safe}}
+              ]
+            }
+          ],
+          "showSymbolLogo": true,
+          "colorTheme": "dark",
+          "isTransparent": false,
+          "locale": "en"
+        }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+
+
+{% endblock %}
